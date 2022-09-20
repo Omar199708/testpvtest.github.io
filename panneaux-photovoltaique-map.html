@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> DESSINEZ VOTRE TOIT | Iberdrola</title>
+    <link rel="icon" href="images/Iberdrola.svg" type="image/x-icon">
+  
+
+    <!--leaflet 1.0.1-->
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+
+
+    <!--leaflet geocomplete with google-->
+      <!-- Importing SheetJS for Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.16.8/dist/xlsx.full.min.js"
+  integrity="sha256-Ic7HP804IrYks4vUqX1trFF1Nr33RjONeJESZnYxsOY=" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <!--leaflet geoman-->
+    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />  
+    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/gh/Falke-Design/PMLock@latest/dist/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+      
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+
+<!--   <link rel="stylesheet" href="css/leaflet-gplaces-autocomplete.css" />
+    <script src="js/leaflet-gplaces-autocomplete.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA8o_cimsHbLd9h-A-zhNfmrGppYGr8Hk&libraries=places"></script>
+    <script src='../unpkg.com/%40turf/turf%406.5.0/turf.min.js'></script> -->
+
+
+    <!--Leaflet draw-->
+
+
+<!--     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+    <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.path.drag@0.0.6/src/Path.Drag.min.js"></script> -->
+
+
+
+    <!--Style-->
+
+
+    <link rel="stylesheet" href="css/style-MW.css">
+    <link href="css/style-MW.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-social.css">
+    <link rel="stylesheet" href="resources/font-awesome/css/font-awesome.min.css">
+
+
+    <!-- google search Autocomplete and style start -->
+
+    <script src="map.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA8o_cimsHbLd9h-A-zhNfmrGppYGr8Hk&libraries=places&callback=initialize1"  defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+
+      <!-- google search Autocomplete and style end -->
+
+
+    
+<style>
+  #table tr td { padding: 5px; }
+</style>
+
+
+
+
+
+        <!------------------------------------- getting stored cookie from previous page: start ---------------------------------->
+
+
+
+
+
+        <script>
+            function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+var latini = getCookie("latitude");
+var lngini = getCookie("longitude");
+var address = getCookie("address");
+
+        </script>
+
+
+
+
+        <!------------------------------------- getting stored cookie from previous page: end ---------------------------------->
+
+
+
+</head>
+<style>
+  .btn-outline-secondary{
+color:black;
+background-color: white;
+border-radius: 10px;
+border-color:#759F2F
+
+}
+.btn-outline-secondary:hover{
+color:#fff;
+background-color:#FFC605;
+border-color:#759F2F
+}
+.btn-outline-secondary.focus,
+.btn-outline-secondary:focus{
+box-shadow:0 0 0 .2rem #759F2F
+}
+</style>
+
+
+
+<body>
+    <!-------------------------------------------- address box: start  --------------------------------------------------->
+
+
+
+
+    <div class="box1 center-block">
+        
+        
+            <div class="input-group" style="width:90%">
+                <button class="btn btn-outline-secondary" style="margin-right: 1%;  border-radius: 10px;" id="location-form2" onclick="getLocation2()" ><i class="fa fa-crosshairs"></i></button>
+                <input type="text" placeholder="Entrez votre adresse" class="form-control form-control-lg" style="border-color: #759F2F; width: auto; margin-right: 1%;  border-radius: 10px;" id="location-input">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" onclick="geocode()" style="border-color: #759F2F; border-radius: 10px;">Trouver</button>
+                </div>
+            </div>
+     
+    
+</div>
+
+
+<img id="box45" src="images/Iberdrola.svg"  alt="Iberdrola" style="width: 200px; background-color: transparent;">
+
+</div>
+
+
+    <!----------------------------------------------- address box:end  --------------------------------------------->
+
+
+
+
+    <!----------------------------------------------- address box location pop:start  --------------------------------------------->
+
+
+
+                <script>
+                    document.getElementById("location-input").value = address;
+                </script>
+
+
+
+
+    <!----------------------------------------------- address box location pop:end  --------------------------------------------->
+
+
+                <!-- type of client selector -->
+                <div id="box">
+                <div id="infobox">1. Vous êtes: <br></br></div>
+                
+                <label><input type="radio" name="client" id="particuliers" value="particuliers" onclick="selector()" /><b style="margin-left: 10px; margin-right: 10px">Particuliers</b></label>
+
+                <label><input type="radio" name="client" id="professionnels" value="professionnels" onclick="selector()" ><b style="margin-left: 10px;">Professionnels</b></label>
+                </div>
+
+
+    <!------------------------------------ info box after they finish drawing:start --------------------------------->
+
+    <div id="box1">
+        
+            
+
+                    <div id="infobox">1. Veuillez selectionez le type d'installation photovoltaïque:<br></br></div>
+                  
+                        <label><input type="radio" name="installtype" id="toit" value="toit" onclick="selector1()"/><b style="margin-left: 10px;">Toit</b></label>
+    
+                        <label><input type="radio" name="installtype" id="sol" value="sol" onclick="selector1()" style="margin-left: 20px;" ><b style="margin-left: 10px; margin-right: 10px;">Sol</b></label>
+
+                        <label><input type="radio" name="installtype" id="ombrière" value="ombrière" onclick="selector1()"><b style="margin-left: 10px;">Ombrière</b></label>
+
+
+                <div id="infoBox" >
+                    2. Veuillez dessinez où vous voulez installer des panneaux solaires afin que nous puissions connaître votre potentiel solaire.<br></br>
+                </div>
+                                    
+                
+
+                    
+                </div>
+                                   
+
+
+                    
+
+                <div id="box2" >
+                    <div id="infobox" style="text-align: center; margin: 1%; padding: 10px 0;">Veuillez patienter quelques secondes</div>
+                    
+                      <div id="loader1" style="margin-top:0.5% ;"></div>
+                      <div class="loader1-section section-left"></div>
+                      <div class="loader1-section section-right"></div>
+                </div>
+
+
+
+                <div id="box3">
+
+                  
+                      
+                      <div id="mapComment" >Votre toit a une superficie de 204,13 m². Voulez-vous continuer le processus ?</div>
+                      
+                          
+                          
+                          <!-- <input type="button" value="Ajouter un autre dessin" onclick="on('pm:drawstart', e)" class="btn btn-outline-secondary" style="height: 35px;"> -->
+                          <button class="btn btn-outline-secondary" onclick="generateGeoJson()"> save Data</button>
+                          <!-- <button type="button" class="btn btn-outline-secondary" id="save">Data table</button> -->
+                          <button type="button" value="Continuer" class="btn btn-outline-secondary" onclick='document.location.href = "panneaux-photovoltaique-devis-particuliers.html";'> Continuer</button>
+                                                
+                      
+                      
+                  </div>
+
+
+                      <div id="box5">
+
+                
+                            
+                            <div id="mapComment2" >Votre toit a une superficie de 204,13 m². Voulez-vous continuer le processus ?</div>
+                            
+                                
+                                
+                                <!-- <input type="button" value="Ajouter un autre dessin" onclick="on('pm:drawstart', e)" class="btn btn-outline-secondary" style="height: 35px;"> -->
+                                <button class="btn btn-outline-secondary" onclick="generateGeoJson()">save Data</button>
+                                <!-- <button type="button" class="btn btn-outline-secondary" id="gettablepro">Data table</button> -->
+                                <button type="button" value="Continuer" class="btn btn-outline-secondary" onclick='document.location.href = "panneaux-photovoltaique-devis-professionels.html";'> Continuer</button>
+                                                      
+
+                            
+                        </div>
+                        <div id="box6">
+                          
+                            
+                                
+                                
+                                    <input class="form-control" type="file" id="input" accept=".xls,.xlsx,.csv"  >
+                               
+                    
+                    <!-- <div class="col-md-12">
+                        <pre id="jsondata"></pre>
+                    </div> -->
+                            
+                                              </div>
+                        <script>
+                          
+ let selectedFile;
+ var value = 0;
+ var sum1 = 0;
+ var avg = 0;
+ var sum2 = 0
+/* console.log(window.XLSX); */
+document.getElementById('input').addEventListener("change", (event) => {
+    selectedFile = event.target.files[0];
+    let data=[{
+    "name":"jayanth",
+    "data":"scd",
+    "abc":"sdef"
+}]
+    XLSX.utils.json_to_sheet(data, 'out.xlsx');
+    if(selectedFile){
+        let fileReader = new FileReader();
+        fileReader.readAsBinaryString(selectedFile);
+        fileReader.onload = (event)=>{
+         let data = event.target.result;
+         let workbook = XLSX.read(data,{type:'binary',dateNF:'dd/mm/yyyy',cellDates:true,header:1,raw: false});
+         /* console.log(workbook); */
+         workbook.SheetNames.forEach(sheet => {
+              let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet],{defval:null});
+              /* console.log(rowObject); */
+              /* localStorage.setItem("Courbe de charge", JSON.stringify(rowObject)); */
+              /* var datajson = localStorage.getItem("Courbe de charge"); */
+              var parsedjson = rowObject;
+              console.log(parsedjson);
+            
+
+              var date1 = Date.parse("2021/01/01");
+    var date2 = Date.parse("2021/12/31");
+    var length = parsedjson.length;
+    console.log(length);
+    var array = [];
+
+    var consomation = 0;
+    var results = 0;
+    var sumconso = 0;
+    var resultsmonth = 0;
+    var sumconsomonth = 0;
+    var arraymonth = [];
+    
+    // calcualte the consommation automaticallly based on the value => conso = sum{AVG of Value{1-6}} /6000
+   
+    for (var i = 0; i < length ; i=i+144){
+      var totalconso = 0
+
+      if(Date.parse(parsedjson[i]["Date de la mesure"])>=Date.parse("2021/09/01") && Date.parse(parsedjson[i]["Date de la mesure"])<Date.parse("2022/09/01")){
+
+  
+        for(var j=i; j < i+144; j++){
+          
+        
+          totalconso = (totalconso +  parsedjson[j]["Valeur"]);
+          results = totalconso/6000;
+        /* console.log(parsedjson[j]["Valeur"]); */
+  
+  
+          
+        }
+        array.push(results);
+        
+        
+        
+      }
+      sumconso += results;
+
+  }
+  console.log(sumconso);
+
+  localStorage.setItem("consommation journaliere", JSON.stringify(array));
+  console.log(array);
+  var datajsonmonth = localStorage.getItem("consommation journaliere");
+              var valuemonth = JSON.parse(datajsonmonth);
+              console.log(valuemonth);
+  for(var i=0; i<360; i=i+30){
+    var totalconsomonth = 0
+    for(var j=i; j < i+30; j++){
+          
+      totalconsomonth = (totalconsomonth +  valuemonth[j]);
+          
+        /* console.log(parsedjson[j]["Valeur"]); */
+  
+  
+          
+        }
+        arraymonth.push(totalconsomonth);
+        console.log(totalconsomonth);
+        sumconsomonth += totalconsomonth;
+  }
+  localStorage.setItem("consommation mensuelle", JSON.stringify(arraymonth));
+  console.log(arraymonth);
+
+  console.log(sumconsomonth);
+
+                
+             /*            consomation = parsed11.map(bill => parsed11[i]["Valeur"]).reduce((acc, amount) => (acc + amount)/1000); */
+                        
+
+
+// Consommation plus the sum if commercial provide the edit for consommation /////////////////////
+
+
+/*  for(var i =0; i<length; i++){
+  console.log(parsed11[i]["Consommation"]);
+  totalconso = totalconso + parsed11[i]["Consommation"]
+
+                      }
+                      console.log(totalconso); */
+                    
+
+
+           
+});
+/*               for(var i=0; i < rowObject.length; i++){
+                  
+                  
+                sum1 = sum1 + rowObject[i]["Valeur"];
+                if (rowObject[i]["Date de la mesure"] > startDate && rowObject[i]["Date de la mesure"] < endDate){
+                  console.log(rowObject[i]["Date de la mesure"]);
+                }
+                
+              }
+              
+        
+              sum1 = sum1 /1000;
+              console.log(sum1); */
+              
+              
+              /* localStorage.setItem("Courbe de charge", JSON.stringify(rowObject));
+              var datajson = localStorage.getItem("Courbe de charge");
+              var value = JSON.parse(datajson); */
+
+
+        /* var startDate = new Date("14/01/2021");
+            var endDate = new Date("/01/2021");
+
+            var resultProductData = rowObject.filter(function (a) {
+                var hitDates = a["Date de la mesure"] || {};
+                hitDates = Object.keys(hitDates);
+                hitDates = hitDates.map(function(date) { return new Date(date); });
+                var hitDateMatches = hitDates.filter(function(date) { return date >= startDate && date <= endDate });
+                return hitDateMatches.length>0;
+            });
+            console.log(resultProductData); */
+            
+            /*   for(var i=0; i < value.length; i++){
+                  for(var j = 0; j < 4; j++){
+                    sum2 = sum2 + value[j]["Valeur"]
+                    avg = sum2/4
+                    
+                  }
+                  
+                sum1 = sum1 + value[i]["Valeur"];
+                
+              }
+              avg = avg / 1000
+              console.log(avg)
+              sum1 = sum1 /1000;
+              console.log(sum1); */
+              /* document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject,undefined,4) */
+         };
+        }
+
+
+   
+   
+
+
+    
+})
+
+
+
+
+
+
+                          </script>
+        <!------------------------------------ info box after they finish drawing:end --------------------------------->
+
+
+
+
+
+<div id="map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;z-index: 1;"></div>
+
+
+
+	<script type="text/javascript">
+
+
+
+
+
+
+
+
+
+            ////////////////////////////////////// initiate map /////////////////////////////////////////
+
+
+          
+
+
+
+
+var map = L.map('map',{ zoomControl: false },{editable: true}).setView([latini, lngini], 19);
+
+
+
+
+
+
+
+////////////////////////////////////        google satelltite tile layer: start     //////////////////////////////////////
+
+
+googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+            maxZoom: 21,
+            
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
+        googleSat.addTo(map);
+
+
+////////////////////////////////////        google satelltite tile layer: end     //////////////////////////////////////
+
+
+
+
+
+
+
+////////////////////////////////////        marker and popup: start     //////////////////////////////////////
+
+
+
+/* var marker = L.marker([latini, lngini]).addTo(map); */
+/* var popup = marker.bindPopup('<b>Hello world!</b><br />I am a popup.'); */
+
+
+
+
+////////////////////////////////////        marker and popup: end     //////////////////////////////////////
+
+
+
+
+
+
+
+////////////////////////////               Drawing tool with area: start              //////////////////////////////////////////////
+
+
+
+
+
+var roofSize = 0;
+var coord1 = 0;
+var coord2 = 0;
+var sum = 0;
+var Nbpanneaux = 0;
+var decimalSUM = 0;
+var removedDecimal = 0;
+var puissance = 0;
+var installsize = 0;
+var optionPV1 = 16;
+var optionPV2 = 32;
+var optionPV3 = 47;
+var surfacepanneaux = 2;
+var price = 0 ;
+let Revenue;
+let typeclient;
+let typeinstall;
+var profitability = 0;
+var rendementsolaireJA = 0.116;
+var rendementsolaireLongi = 0.216;
+var coefficientpertes = 0.7513;
+
+
+function selector() {
+
+if (document.getElementById('particuliers').checked) {
+    typeclient = "particuliers";
+   
+   document.cookie = "client=" + typeclient;
+   document.getElementById("box1").style.display = "block";
+}
+else if (document.getElementById('professionnels').checked) {
+  typeclient = "professionnels";
+  
+   document.cookie = "client=" + typeclient;
+   document.getElementById("box1").style.display = "block";
+
+  document.getElementById("box6").style.display = "block";
+
+}
+console.log(typeclient);
+}
+
+function selector1() {
+      
+      if (document.getElementById('toit').checked) {
+        typeinstall = "toit";
+          
+          document.cookie = "Type d'installation=" + typeinstall;
+      }
+      else if (document.getElementById('sol').checked) {
+        typeinstall = "sol";
+       
+          document.cookie = "Type d'installation=" + typeinstall;
+      }
+      else if (document.getElementById('ombrière').checked) {
+        typeinstall = "ombrière";
+       
+          document.cookie = "Type d'installation=" + typeinstall;
+      }
+      console.log(typeinstall);
+    }
+
+// add Leaflet-Geoman controls with some options to the map  
+var options = {
+  position: 'topright', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+  drawMarker: true, // adds button to draw markers
+  drawPolyline: true, // adds button to draw a polyline
+  drawRectangle: false, // adds button to draw a rectangle
+  drawPolygon: true, // adds button to draw a polygon
+  drawCircle: false, // adds button to draw a cricle
+  drawText: false,
+  drawCircleMarker: false,
+  cutPolygon: true, // adds button to cut a hole in a polygon
+  editMode: true, // adds button to toggle edit mode for all layers
+  removalMode: true, // adds a button to remove layers
+
+};
+
+// add leaflet.pm controls to the map
+map.pm.addControls(options);
+
+
+
+
+
+map.pm.setPathOptions({
+  color: 'orange',
+  fillColor: 'green',
+  fillOpacity: 0.2,
+  
+});
+
+
+
+    map.on('pm:drawstart', e => {
+
+      
+
+  document.getElementById("box1").style.display = "block";
+  document.getElementById("box").style.display = "none";
+  document.getElementById("box2").style.display = "none";
+  document.getElementById("box3").style.display = "none";
+  document.getElementById("box5").style.display = "none";
+
+
+});
+
+
+
+
+
+/* map.on('pm:drawstart', ({ workingLayer }) => {
+  workingLayer.on('pm:vertexadded', (e) => {
+      
+    console.log(e);    document.getElementById("box").style.display = "block";
+  document.getElementById("box2").style.display = "none";
+  document.getElementById("box3").style.display = "none";
+});
+
+
+}); */
+
+
+map.on('pm:drawend', e => {
+    
+    document.getElementById("box1").style.display = "none";
+    document.getElementById("box").style.display = "none";
+   
+    
+});
+
+var drawnItems = L.geoJson();
+map.addLayer(drawnItems);
+
+function generateGeoJson(){
+	var fg = L.featureGroup();    
+	var layers = findLayers(map);
+        layers.forEach(function(layer){
+  	    fg.addLayer(layer);
+         });
+  var data = fg.toGeoJSON();
+	console.log(data);
+  localStorage.setItem("data", JSON.stringify(data));
+  
+  var datajson = localStorage.getItem("data");
+  var parsed = JSON.parse(datajson);
+  var surfacetotalparti = 0;
+  var nbpanneauxtotal = 0;
+  var puissancetotal = 0;
+  var prodtotal = 0;
+  /* console.log(parsed.features[1].properties['Installation']); */
+  for (let i = 0; i < parsed.features.length; i++) {
+    var surfacetotalparti = surfacetotalparti + parsed.features[i].properties["Surface"];
+    var nbpanneauxtotal = nbpanneauxtotal + parsed.features[i].properties["Nbpanneaux"];
+    var puissancetotal = puissancetotal + parsed.features[i].properties["Puissance"];
+    var prodtotal = prodtotal + parsed.features[i].properties["Prodannuelle"];
+
+    console.log(parsed.features[i].properties);
+}
+console.log(surfacetotalparti);
+  document.cookie = "Surface total d'installation=" + surfacetotalparti;
+  document.cookie = "Production annuelle=" + prodtotal;
+  document.cookie = "Puissance totale=" + puissancetotal;
+  document.cookie = "Nbs panneaux=" + nbpanneauxtotal;
+
+
+// to generate monthly energy production
+
+
+
+/////////////////////////////////////////
+
+
+
+
+};
+/// function for adding the data in the table//////////////////////////////////////////////////////////////////// to test between the two methods 
+$('#save').click(function () {
+  var dtjson = localStorage.getItem("data");
+  var parsing = JSON.parse(dtjson);
+  
+  for (var i = 0; i < parsing.features.length; i++) {
+    document.getElementById('table').innerHTML += '<tr><td>' + parsing.features[i].properties["Installation"] + '</td><td>' + parsing.features[i].properties["Puissance"] +  '</td><td>' + parsing.features[i].properties["Prodannuelle"] + '</td><td>' + parsing.features[i].properties["Surface"] + '</td><td>' + parsing.features[i].properties["Nbpanneaux"] + '</td></tr>';
+
+    /* $.each(parsing, function () {
+      
+        $('<tr>').append(
+        $('<td>').text(parsing.features[i].properties["Installation"]),
+        $('<td>').text(parsing.features[i].properties["Puissance"]),
+        $('<td>').text(parsing.features[i].properties["Prodannuelle"]),
+        $('<td>').text(parsing.features[i].properties["Surface"])).appendTo('#table');
+        // $('#records_table').append($tr);
+        //console.log($tr.wrap('<p>').html());
+      
+    }); */
+  };
+
+  
+});
+/// function for adding the data in the table for testing purposes ////////////////////////////////////////////////////////////////////
+
+
+$('#gettablepro').click(function () {
+  var dtajson = localStorage.getItem("data");
+  var parsing1 = JSON.parse(dtajson);
+
+  for (var i = 0; i < parsing1.features.length; i++) {
+    document.getElementById('table').innerHTML += '<tr><td>' + parsing1.features[i].properties["Installation"] + '</td><td>' + parsing1.features[i].properties["Puissance"] +  '</td><td>' + parsing1.features[i].properties["Prodannuelle"] + '</td><td>' + parsing1.features[i].properties["Surface"] + '</td><td>' + parsing1.features[i].properties["Nbpanneaux"] + '</td></tr>';
+
+    /* $.each(parsing, function () {
+      
+        $('<tr>').append(
+        $('<td>').text(parsing.features[i].properties["Installation"]),
+        $('<td>').text(parsing.features[i].properties["Puissance"]),
+        $('<td>').text(parsing.features[i].properties["Prodannuelle"]),
+        $('<td>').text(parsing.features[i].properties["Surface"])).appendTo('#table');
+        // $('#records_table').append($tr);
+        //console.log($tr.wrap('<p>').html());
+      
+    }); */
+  };
+
+
+});
+
+
+
+
+  
+
+
+
+// to find each layer drawn and store it as a json data
+
+function findLayers(map) {
+    var layers = [];
+    map.eachLayer(layer => {
+      if (
+        layer instanceof L.Polyline || //Don't worry about Polygon and Rectangle they are included in Polyline
+        layer instanceof L.Marker ||
+        layer instanceof L.Circle ||
+        layer instanceof L.CircleMarker
+      ) {
+        layers.push(layer);
+      }
+    });
+
+    // filter out layers that don't have the leaflet-geoman instance
+    layers = layers.filter(layer => !!layer.pm);
+
+    // filter out everything that's leaflet-geoman specific temporary stuff
+    layers = layers.filter(layer => !layer._pmTempLayer);
+
+    return layers;
+  }
+  
+  
+
+
+
+map.on('pm:create', e => {  
+
+
+  var layer = e.layer;
+  document.getElementById("box").style.display = "block";
+  document.getElementById("box2").style.display = "block";
+
+
+  layer.on('pm:edit', e => {
+    console.log(e);
+
+
+
+////////////////////////////////         update area of polygon: start            //////////////////////////////////////
+
+
+    // get roof size
+  roofSize = (turf.area(layer.toGeoJSON())).toFixed(2);
+  const decimal = roofSize;
+  const RDecimal = Math.trunc(decimal);
+  
+  console.log(RDecimal);
+
+
+  if (typeclient == "particuliers"){
+
+
+
+  /* ROOF SIZE WITH PV INSTALLED UPDATED: START */
+
+/*   if ( roofSize <= optionPV1  ){
+
+    alert("surface de toit minimum est 18 mètres carrès ");
+window.location.reload();
+} */
+
+  if ( RDecimal > optionPV1 && RDecimal < optionPV2 ){
+
+puissance = 3;
+installsize = 15;
+Nbpanneaux = 8;
+price = 9000;
+Revenue = "20000 € - 27000 €";
+profitability = 17;
+console.log(puissance);
+console.log(Nbpanneaux);
+console.log(price);
+console.log(Revenue);
+console.log(profitability);
+
+}
+
+  else if  ( RDecimal > optionPV2 && RDecimal < optionPV3 ){
+
+puissance = 6;
+installsize = 30;
+Nbpanneaux = 16;
+price = 12000;
+Revenue = "34000 € - 46000 €";
+profitability = 19;
+console.log(puissance);
+console.log(Nbpanneaux);
+console.log(price);
+console.log(Revenue);
+console.log(profitability);
+
+}
+
+  else if  ( RDecimal > optionPV3 ){
+
+puissance = 9;
+installsize = 45;
+Nbpanneaux = 24;
+price = 15000;
+Revenue = "46000 € - 65000 €";
+profitability = 21;
+console.log(puissance);
+console.log(Nbpanneaux);
+console.log(price);
+console.log(Revenue);
+console.log(profitability);
+
+}
+
+
+
+
+let poweroutput = 0;
+if (puissance == 3)
+poweroutput = 3 * removedDecimal * 0.85;
+else if(puissance == 6)
+poweroutput = 6 * removedDecimal * 0.85;
+else if(puissance == 9)
+poweroutput = 9 * removedDecimal * 0.85;
+
+
+const Deci = poweroutput;
+const RDeci = Math.trunc(Deci);
+
+
+document.cookie = "Surface du toit=" + RDecimal; 
+document.cookie = "Puissance=" + puissance;
+document.cookie = "Surface d'installation=" + installsize;
+document.cookie = "Nombre des panneaux=" + Nbpanneaux;
+document.cookie = "Prix=" + price;
+document.cookie = "Revenu total=" + Revenue;
+document.cookie = "Rentabilisé en=" + profitability;
+document.cookie = "Ensolleiment=" + removedDecimal;
+document.cookie = "Production annuelle=" + RDeci;
+
+
+// 
+document.getElementById("mapComment").innerHTML = "Vos résultats de la simulation: <br><br> - Surface de toit: <b class='highlight'> " + RDecimal + " </b> <strong> m². </strong> </br> <br> - Durée d'ensoleillement: <b class='highlight'> " + removedDecimal + " </b> <strong> heures par an. </strong>  </br> <br> - Taille d'installation: <b class='highlight'> " + puissance + " </b> <strong> kW. </strong> </br> <br> - Nombre de panneaux: <b class='highlight'> " + Nbpanneaux + " </b> <strong> kW. </strong> </br> <br> Pour ajouter d'autres dessins, veuillez appuyer sur le bouton <img src='images/polygon.svg'> <br> <br> Voulez-vous continuer le processus ? </br></br>"
+document.getElementById("box").style.display = "none";
+document.getElementById("box2").style.display = "none";
+document.getElementById("box3").style.display = "block";
+//
+
+//geojson properties ////////////////////////////////////////////////////////
+
+
+feature = layer.feature = layer.feature || {}; // Initialize feature
+feature.type = feature.type || "Feature"; // Initialize feature.type
+var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+props.Installation = typeinstall;
+props.Surface = RDecimal;
+props.Puissance = puissance;
+props.Prodannuelle = RDeci;
+props.Ensolleiment = removedDecimal;
+props.Nbpanneaux = Nbpanneaux;
+props.Prix = price;
+props.Revenue = Revenue;
+props.profitability = profitability;
+drawnItems.addLayer(layer); // whatever you want to do with the created layer
+
+
+//geojson properties ////////////////////////////////////////////////////////
+
+
+}
+
+
+else if ( typeclient == "professionnels" ){
+
+Nbpanneaux = RDecimal / surfacepanneaux;
+const Decimalnb = Nbpanneaux;
+const RDecimalnb = Math.trunc(Decimalnb);
+puissance = Nbpanneaux * 0.46;
+const Decimalpuissance = puissance;
+const RDecimalpuissance = Math.trunc(Decimalpuissance);
+if(typeinstall == "toit" || typeinstall =="ombrière"){
+
+poweroutput = RDecimal * removedDecimal * rendementsolaireJA * coefficientpertes;
+const Deci = poweroutput;
+const RDeci = Math.trunc(Deci);
+console.log(RDeci);
+//geojson properties ////////////////////////////////////////////////////////
+
+
+feature = layer.feature = layer.feature || {}; // Initialize feature
+feature.type = feature.type || "Feature"; // Initialize feature.type
+var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+props.Installation = typeinstall;
+props.Surface = RDecimal;
+props.Puissance = RDecimalpuissance;
+props.Prodannuelle = RDeci;
+props.Ensolleiment = removedDecimal;
+props.Nbpanneaux = RDecimalnb;
+drawnItems.addLayer(layer); // whatever you want to do with the created layer
+
+
+//geojson properties ////////////////////////////////////////////////////////
+
+}
+else if(typeinstall == "sol"){
+
+poweroutput = RDecimal * removedDecimal * rendementsolaireLongi * coefficientpertes;
+  const Deci = poweroutput;
+  const RDeci = Math.trunc(Deci);
+  console.log(RDeci);
+  //geojson properties ////////////////////////////////////////////////////////
+
+
+feature = layer.feature = layer.feature || {}; // Initialize feature
+feature.type = feature.type || "Feature"; // Initialize feature.type
+var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+props.Installation = typeinstall;
+props.Surface = RDecimal;
+props.Puissance = RDecimalpuissance;
+props.Prodannuelle = RDeci;
+props.Ensolleiment = removedDecimal;
+props.Nbpanneaux = RDecimalnb;
+drawnItems.addLayer(layer); // whatever you want to do with the created layer
+
+
+//geojson properties ////////////////////////////////////////////////////////
+}
+
+
+
+/* console.log(RDecimal);
+console.log(RDecimalnb);
+console.log(RDecimalpuissance);
+console.log(RDeci); */
+/* document.cookie = "Surface de l'installation=" + RDecimal; 
+document.cookie = "Nombre des panneaux=" + RDecimalnb;
+document.cookie = "Puissance=" + RDecimalpuissance;
+document.cookie = "Productible=" + removedDecimal;
+document.cookie = "Production annuelle=" + RDeci;
+document.cookie = "puissance=" + puissance; */
+document.getElementById("box2").style.display = "none";
+document.getElementById("mapComment2").innerHTML = "Vos résultats de la simulation: <br><br> - Surface de toit: <b class='highlight'> " + RDecimal + " </b> <strong> m². </strong>  </br> <br> - Taille d'installation: <b class='highlight'> " + RDecimalpuissance + " </b> <strong> kW. </strong> </br> <br> - nombre de panneaux: <b class='highlight'> " + RDecimalnb + " </b> <strong> kW. </strong> </br> <br> Pour ajouter d'autres dessins, veuillez appuyer sur le bouton <img src='images/polygon.svg'> <br> <br> Voulez-vous continuer le processus ? </br></br>"
+document.getElementById("box1").style.display = "none";
+document.getElementById("box5").style.display = "block";
+document.getElementById("box6").style.display = "block";
+
+}
+});
+
+////////////////////////////////         update area of polygon: end            //////////////////////////////////////
+
+
+///////////////////////////////////////            roof size with type of PV installation: start      ///////////////////////////////////////
+
+//roof size: get
+roofSize = (turf.area(layer.toGeoJSON())).toFixed(2);
+const decimal = roofSize;
+const RDecimal = Math.trunc(decimal);
+console.log(RDecimal);
+
+
+
+// cas client: particuliers
+
+
+if (typeclient == "particuliers"){
+
+
+  /* if ( roofSize <= optionPV1  ){
+
+alert("surface de toit minimum est 18 m², veuillez modifier le dessin !");
+
+  } */
+  
+  if ( RDecimal > optionPV1 && RDecimal < optionPV2 ){
+
+    puissance = 3;
+    Nbpanneaux = 8;
+    installsize = 15;
+    price = 8000;
+    Revenue = "20000 € - 27000 €";
+profitability = 17;
+console.log(puissance);
+console.log(Nbpanneaux);
+console.log(price);
+console.log(Revenue);
+console.log(profitability);
+
+}
+ 
+  else if  ( RDecimal > optionPV2 && RDecimal < optionPV3 ){
+
+    puissance = 6;
+    Nbpanneaux = 16;
+    installsize = 30;
+    price = 12000;
+    Revenue = "34000 € - 46000 €";
+profitability = 19;
+console.log(puissance);
+console.log(Nbpanneaux);
+console.log(price);
+console.log(Revenue);
+console.log(profitability);
+
+}
+ 
+  else if  ( RDecimal > optionPV3 ){
+
+    puissance = 9;
+    Nbpanneaux = 24;
+    installsize = 45;
+    price = 16000;
+    Revenue = "46000 € - 65000 €";
+profitability = 21;
+console.log(puissance);
+console.log(Nbpanneaux);
+console.log(price);
+console.log(Revenue);
+console.log(profitability);
+
+}
+
+
+    
+
+///////////////////////////////////////            roof size with type of PV installation: end      ///////////////////////////////////////
+
+
+////////////////////////////               get solar irradiation: start              //////////////////////////////////////////////
+
+
+
+var x = new XMLHttpRequest();
+
+x.open('GET', "http://api.scraperapi.com?api_key=1968c27e4293f5ba9cc9a56da9587898&url=https://re.jrc.ec.europa.eu/api/v5_2/MRcalc?lat=" + latini + "&lon=" + lngini + "&startyear=2020&outputformat=json&horirrad=1", true);
+// I put "XMLHttpRequest" here, but you can use anything you want.
+    var sum=0;
+
+x.onload = function() {
+   var json = JSON.parse(x.responseText);
+   console.log(x);
+
+for (let i = 0; i < 12; i++) {
+   sum = sum + json["outputs"].monthly[i]['H(h)_m'];
+}
+
+
+decimalSUM = sum;
+removedDecimal = Math.trunc(decimalSUM);
+console.log(removedDecimal);
+
+
+  
+
+let poweroutput = 0;
+if (puissance == 3)
+poweroutput = 3 * sum * 0.85;
+else if(puissance == 6)
+poweroutput = 6 * sum * 0.85;
+else if(puissance == 9)
+poweroutput = 9 * sum * 0.85;
+
+
+const Deci = poweroutput;
+const RDeci = Math.trunc(Deci);
+console.log(RDeci);
+
+document.cookie = "Surface du toit=" + RDecimal; 
+document.cookie = "Puissance=" + puissance;
+document.cookie = "Surface d'installation=" + installsize;
+document.cookie = "Nombre des panneaux=" + Nbpanneaux;
+document.cookie = "Prix=" + price;
+document.cookie = "Revenue total=" + Revenue;
+document.cookie = "Rentabilisé en=" + profitability;
+document.cookie = "Ensolleiment=" + removedDecimal;
+document.cookie = "Production annuelle=" + RDeci;
+
+document.getElementById("box2").style.display = "none";
+document.getElementById("mapComment").innerHTML = "Vos résultats de la simulation: <br><br> - Surface de toit: <b class='highlight'> " + RDecimal + " </b> <strong> m². </strong> </br> <br> - Durée d'ensoleillement: <b class='highlight'> " + removedDecimal + " </b> <strong> heures par an. </strong>  </br> <br> - Taille d'installation: <b class='highlight'> " + puissance + " </b> <strong> kW. </strong> </br> <br> - Nombre de panneaux: <b class='highlight'> " + Nbpanneaux + " </b> <strong> kW. </strong> </br> <br> Pour ajouter d'autres dessins, veuillez appuyer sur le bouton <img src='images/polygon.svg'> <br> <br> Voulez-vous continuer le processus ? </br></br>"
+document.getElementById("box1").style.display = "none";
+document.getElementById("box3").style.display = "block";
+
+
+
+
+feature = layer.feature = layer.feature || {}; // Initialize feature
+feature.type = feature.type || "Feature"; // Initialize feature.type
+var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+props.Installation = typeinstall;
+props.Surface = RDecimal;
+props.Puissance = puissance;
+props.Prodannuelle = RDeci;
+props.Ensolleiment = removedDecimal;
+props.Nbpanneaux = Nbpanneaux;
+props.Prix = price;
+props.Revenue = Revenue;
+props.profitability = profitability;
+drawnItems.addLayer(layer); // whatever you want to do with the created layer
+
+};
+
+
+x.send();
+}
+
+else if ( typeclient == "professionnels" ){
+  
+
+
+  var x = new XMLHttpRequest();
+
+x.open('GET', "http://api.scraperapi.com?api_key=1968c27e4293f5ba9cc9a56da9587898&url=https://re.jrc.ec.europa.eu/api/v5_2/MRcalc?lat=" + latini + "&lon=" + lngini + "&startyear=2020&outputformat=json&horirrad=1", true);
+// I put "XMLHttpRequest" here, but you can use anything you want.
+    var sum=0;
+
+x.onload = function() {
+  
+   var json = JSON.parse(x.responseText);
+   console.log(x);
+   localStorage.setItem("Productible", JSON.stringify(json));
+   
+
+for (let i = 0; i < 12; i++) {
+   sum = sum + json["outputs"].monthly[i]['H(h)_m'];
+}
+
+
+   decimalSUM = sum;
+   removedDecimal = Math.trunc(decimalSUM);
+
+   
+console.log(removedDecimal);
+
+
+
+Nbpanneaux = RDecimal / surfacepanneaux;
+const Decimalnb = Nbpanneaux;
+const RDecimalnb = Math.trunc(Decimalnb);
+puissance = Nbpanneaux * 0.46;
+const Decimalpuissance = puissance;
+const RDecimalpuissance = Math.trunc(Decimalpuissance);
+
+if(typeinstall == "toit" || typeinstall =="ombrière"){
+
+  poweroutput = RDecimal * removedDecimal * rendementsolaireJA * coefficientpertes;
+  const Deci = poweroutput;
+  const RDeci = Math.trunc(Deci);
+  console.log(RDeci);
+  //geojson properties ////////////////////////////////////////////////////////
+
+
+feature = layer.feature = layer.feature || {}; // Initialize feature
+feature.type = feature.type || "Feature"; // Initialize feature.type
+var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+props.Installation = typeinstall;
+props.Surface = RDecimal;
+props.Puissance = RDecimalpuissance;
+props.Prodannuelle = RDeci;
+props.Ensolleiment = removedDecimal;
+props.Nbpanneaux = RDecimalnb;
+drawnItems.addLayer(layer); // whatever you want to do with the created layer
+
+
+//geojson properties ////////////////////////////////////////////////////////
+
+}
+else if(typeinstall == "sol"){
+
+  poweroutput = RDecimal * removedDecimal * rendementsolaireLongi * coefficientpertes;
+    const Deci = poweroutput;
+    const RDeci = Math.trunc(Deci);
+    console.log(RDeci);
+    //geojson properties ////////////////////////////////////////////////////////
+
+
+feature = layer.feature = layer.feature || {}; // Initialize feature
+feature.type = feature.type || "Feature"; // Initialize feature.type
+var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+props.Installation = typeinstall;
+props.Surface = RDecimal;
+props.Puissance = RDecimalpuissance;
+props.Prodannuelle = RDeci;
+props.Ensolleiment = removedDecimal;
+props.Nbpanneaux = RDecimalnb;
+drawnItems.addLayer(layer); // whatever you want to do with the created layer
+
+
+//geojson properties ////////////////////////////////////////////////////////
+}
+
+
+console.log(RDecimal);
+console.log(RDecimalnb);
+console.log(RDecimalpuissance);
+
+/* document.cookie = "Surface du toit=" + RDecimal; 
+document.cookie = "Nombre des panneaux=" + RDecimalnb;
+document.cookie = "Puissance=" + RDecimalpuissance;
+document.cookie = "Ensolleiment=" + removedDecimal;
+document.cookie = "Production annuelle=" + RDeci; */
+document.getElementById("box2").style.display = "none";
+document.getElementById("mapComment2").innerHTML = "Vos résultats de la simulation: <br><br> - Surface de toit: <b class='highlight'> " + RDecimal + " </b> <strong> m². </strong>  </br> <br> - Taille d'installation: <b class='highlight'> " + RDecimalpuissance + " </b> <strong> kW. </strong> </br> <br> - nombre de panneaux: <b class='highlight'> " + RDecimalnb + " </b> <strong>. </strong> </br> <br> Pour ajouter d'autres dessins, veuillez appuyer sur le bouton <img src='images/polygon.svg'> <br> <br> Voulez-vous continuer le processus ? </br></br>"
+document.getElementById("box1").style.display = "none";
+document.getElementById("box5").style.display = "block";
+document.getElementById("box6").style.display = "block";
+
+
+
+
+
+
+
+
+
+};
+
+
+x.send();
+
+}
+
+});
+
+////////////////////////////               Dget solar: end              //////////////////////////////////////////////
+
+////////////////////////////               Drawing tool with area: end              //////////////////////////////////////////////
+</script>
+</body>
+</html>

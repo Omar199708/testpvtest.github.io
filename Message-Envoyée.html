@@ -1,0 +1,191 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simulez votre projet photovoltaïque avec Green World Energy." />
+    <meta name="keywords" content="Solaire, Energíe, Photovoltaique, Autoconsommation">
+    <title>Installation de panneaux solaires | GWE</title>
+    <link rel="icon" type="image/png" href="images/GWELOGOSOLO.png">
+    <title>Document</title>
+    <!-- carrousel -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <!--Styles-->
+
+
+
+    <link href="css/style-MW.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-social.css">
+    <link rel="stylesheet" href="resources/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+
+
+    <!-- Bootstrap icons-->
+
+
+
+    <link href="../cdn.jsdelivr.net/npm/bootstrap-icons%401.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+
+
+
+
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+    <script type="text/javascript">
+      (function(){
+         emailjs.init("SztSptZvc18GUl41R");
+      })();
+   </script>
+   <script>
+    function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+  var c = ca[i];
+  while (c.charAt(0) == ' ') {
+  c = c.substring(1);
+  }
+  if (c.indexOf(name) == 0) {
+  return c.substring(name.length, c.length);
+  }
+  }
+  return "";
+  }
+  
+    /* console.log(parsed.features[1].properties['Installation']); */
+   
+   /*  window.addEventListener('load', function() {
+    var dtjson = localStorage.getItem("data");
+    var parsing = JSON.parse(dtjson);
+    for (var i = 0; i < parsing.features.length; i++) {
+      console.log(parsing.features[i].properties);
+      document.getElementById('table').innerHTML += '<tr><td>' + parsing.features[i].properties["Installation"] + '</td><td>' + parsing.features[i].properties["Puissance"] +  '</td><td>' + parsing.features[i].properties["Prodannuelle"] + '</td><td>' + parsing.features[i].properties["Surface"] + '</td><td>' + parsing.features[i].properties["Nbpanneaux"] + '</td></tr>';
+  
+    };
+  }); */
+  
+  
+  var latini = getCookie("latitude");
+  var lngini = getCookie("longitude");
+  var address = getCookie("address");
+  var roofs = getCookie("Surface du toit");
+  var Sum = getCookie("Ensolleiment");
+  var Puissance = getCookie("Puissance");
+  var Installsize = getCookie("Surface d'installation");
+  var PowerOutput = getCookie("Production annuelle");
+  var prix = getCookie("Prix");
+  var Revenu = getCookie("Revenue total");
+  var Rentabilisé = getCookie("Rentabilisé en");
+  var area = getCookie("Surface total d'installation");
+  var name = getCookie("Nom du client");
+  var email = getCookie("email");
+  
+  
+  
+  </script>
+
+    <style>
+        .btn-outline-secondary{
+  color:black;
+  background-color: white;
+  border-radius: 10px;
+  border-color:#D3DFC2
+
+}
+.btn-outline-secondary:hover{
+  color:#fff;
+  background-color:#FFC605;
+  border-color:#D3DFC2
+}
+.btn-outline-secondary.focus,
+.btn-outline-secondary:focus{
+  box-shadow:0 0 0 .2rem #759F2F
+}
+      </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" style="margin-bottom:0;">
+        <div class="container-fluid justify-content-center">
+            <a class="navbar-brand   " href="panneaux-photovoltaique.html">
+                <img src="images/GWELOGO.png"  alt="GWELOGO" style="width: 200px;">
+            </a>
+
+        </div>
+      
+    </nav>
+    <div class="jumbotron text-center" style="background-color: #5b871a44; height: 100%; margin: 0; font-family: Nunito ;">
+        <h1 style="font-weight: bolder;">Merci d'avoir nous contacter !</h1>
+        <p class="lead">Nous avons reçu votre demande et nous vous rappellerons à la date et à l'heure choisies.</p>
+        <hr>
+        <p>
+            Si vous n'êtes pas disponible ou si vous avez changé d'avis, veuillez nous envoyer un message à <strong>solaire@greenworldenergie.fr</strong> .
+        </p>
+        <p class="lead">
+          <a class="btn btn-outline-secondary" href="panneaux-photovoltaique.html" role="button">Continuer vers la page d'accueil</a>
+        </p>
+<!--         <h2>Contact Us</h2>
+<input type="text" id="fullName" placeholder="Enter Name">
+<script>
+  document.getElementById("fullName").value = name ;
+</script>
+<input type="email" id="email_id" placeholder="Enter Email">
+<script>
+  document.getElementById("email_id").value = email ;
+</script>
+<textarea type="text" id="message" placeholder="Enter Message"></textarea>
+<button oncLick="sendMail()">Send</button> -->
+      </div>
+
+
+
+
+     <!-- <script>
+       function sendMail(){
+  var params = {
+  from_name : document.getElementById("fullName").value,
+  email_id : document.getElementById("email_id").value,
+  message : document.getElementById("message").value
+}
+emailjs.send("service_2vgzf0o","template_tf5jz2c", params).then(function(res){
+  alert("success!" + res.status);
+})
+}
+       window.addEventListener('load', function() {
+         console.log(name);
+         console.log(email)
+
+        
+
+
+       });
+     </script> -->
+      
+      
+     
+</body>
+<!-- Footer -->
+<footer class="page-footer font-small blue" style="background-color: #5b871a25;">
+
+  
+    <div class="footer-copyright text-center py-3">
+      <a href="panneaux-photovoltaique.html"><img src="images/GWELOGO-remove.png"  alt="GWELOGO" style="width: 200px; background-color: transparent;"></a>
+    </div>
+   <!-- Copyright -->
+    <div class="footer-copyright text-center py-3" style="font-family: Nunito;">
+      © 2022 Green World Energy. Tout droits réservés.
+      
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer -->
+</html>

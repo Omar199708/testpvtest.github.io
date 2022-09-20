@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<!-- ////////////////////////////           head start                     ////////////////////////////-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simulez votre projet photovoltaïque avec Green World Energy." />
+    <meta name="keywords" content="Solaire, Energíe, Photovoltaique, Autoconsommation">
+    <base href="/">
+    <title>Votre Offre | Iberdrola</title>
+    <link rel="icon" type="image/png" href="images/Iberdrola.svg">
+
+
+
+    <!----------------------------------------                Styles                        --------------------------------------------------->
+
+
+
+    <link href="css/style-MW.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-social.css">
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+
+
+    <!---------------------------------------                    Bootstrap icons                   ------------------------------------------------>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="../cdn.jsdelivr.net/npm/bootstrap-icons%401.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+
+
+    <!----------------------------------------                API                        ---------------------------------------------->
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet">
+
+
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
+    <!-------------------------------------------                         JS                 ------------------------------------------------>
+
+
+
+    <link rel="stylesheet" href="css/style-MW.css">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
+
+
+ 
+
+      <!--------------------------               google search Autocomplete and style end                ---------------------------------->
+
+
+      <script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+  </script>
+      <script type="text/javascript">
+        (function(){
+           emailjs.init("SztSptZvc18GUl41R");
+        })();
+     </script>
+
+
+      <!--------------------------              Result generate pdf:start               ---------------------------------->
+
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+      <!--------------------------              Result generate pdf:end               ---------------------------------->
+
+
+      <style>
+        #test {
+          display: none;
+        }
+        .btn-outline-secondary{
+  color:black;
+  background-color: white;
+  border-radius: 10px;
+  border-color:#D3DFC2
+
+}
+.btn-outline-secondary:hover{
+  color:#fff;
+  background-color:#FFC605;
+  border-color:#D3DFC2
+}
+.btn-outline-secondary.focus,
+.btn-outline-secondary:focus{
+  box-shadow:0 0 0 .2rem #759F2F
+}
+      </style>
+</head>
+
+
+
+
+<!------------------------------------- getting stored cookie from previous page: start ---------------------------------->
+
+
+
+
+<script>
+  function getCookie(cname) {
+var name = cname + "=";
+var decodedCookie = decodeURIComponent(document.cookie);
+var ca = decodedCookie.split(';');
+for(var i = 0; i <ca.length; i++) {
+var c = ca[i];
+while (c.charAt(0) == ' ') {
+c = c.substring(1);
+}
+if (c.indexOf(name) == 0) {
+return c.substring(name.length, c.length);
+}
+}
+return "";
+}
+
+  /* console.log(parsed.features[1].properties['Installation']); */
+ 
+ /*  window.addEventListener('load', function() {
+  var dtjson = localStorage.getItem("data");
+  var parsing = JSON.parse(dtjson);
+  for (var i = 0; i < parsing.features.length; i++) {
+    console.log(parsing.features[i].properties);
+    document.getElementById('table').innerHTML += '<tr><td>' + parsing.features[i].properties["Installation"] + '</td><td>' + parsing.features[i].properties["Puissance"] +  '</td><td>' + parsing.features[i].properties["Prodannuelle"] + '</td><td>' + parsing.features[i].properties["Surface"] + '</td><td>' + parsing.features[i].properties["Nbpanneaux"] + '</td></tr>';
+
+  };
+}); */
+
+
+var latini = getCookie("latitude");
+var lngini = getCookie("longitude");
+var address = getCookie("address");
+var roofs = getCookie("Surface du toit");
+var Sum = getCookie("Ensolleiment");
+var Puissance = getCookie("Puissance");
+var Installsize = getCookie("Surface d'installation");
+var PowerOutput = getCookie("Production annuelle");
+var prix = getCookie("Prix");
+var Revenu = getCookie("Revenue total");
+var Rentabilisé = getCookie("Rentabilisé en");
+var area = getCookie("Surface total d'installation");
+
+
+
+</script>
+
+<style>
+  
+  #invoice{
+    display: none;
+  }
+  #pop{
+    display: none;
+  }
+  #loader-wrapper {
+    background: #fff none repeat scroll 0 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition: all 0.4s ease-out 0s;
+    width: 100%;
+    z-index: 1000;
+}
+#loader {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    animation: 2s linear 0s normal none infinite running spin;
+    border-color: #759F2F transparent transparent;
+    border-image: none;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+    display: block;
+    height: 80px;
+    left: 50%;
+    margin: -40px 0 0 -40px;
+    position: relative;
+    top: 50%;
+    width: 80px;
+    z-index: 1001;
+}
+#loader::before {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    animation: 3s linear 0s normal none infinite running spin;
+    border-color: #FFC605 transparent transparent;
+    border-image: none;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+    bottom: 5px;
+    content: "";
+    left: 5px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+#loader::after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    animation: 1.5s linear 0s normal none infinite running spin;
+    border-color: #3193CC transparent transparent;
+    border-image: none;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+    bottom: 15px;
+    content: "";
+    left: 15px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+@keyframes spin {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}
+#loader-wrapper .loader-section {
+    background: #fff none repeat scroll 0 0;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 51%;
+    z-index: 1000;
+}
+#loader-wrapper .loader-section.section-left {
+    display: none;
+    left: 0;
+}
+#loader-wrapper .loader-section.section-right {
+    display: none;
+    right: 0;
+}
+.loaded #loader-wrapper .loader-section.section-left {
+  
+    background: transparent none repeat scroll 0 0;
+    transition: all 0.9s ease-out 0s;
+}
+.loaded #loader-wrapper .loader-section.section-right {
+    background: transparent none repeat scroll 0 0;
+    transition: all 0.9s ease-out 0s;
+}
+.loaded #loader {
+    opacity: 0;
+}
+.loaded #loader-wrapper {
+    background: transparent none repeat scroll 0 0;
+    visibility: hidden;
+}
+#box200{
+  display: block;
+}
+</style>
+
+<!------------------------------------- getting stored cookie from previous page: end ---------------------------------->
+
+
+
+
+<body>
+    
+        <!------------------------------------- head of page : start ---------------------------------->
+
+
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom ">
+                <div class="container-fluid justify-content-center">
+                    <a class="navbar-brand   " href="panneaux-photovoltaique.html">
+                        <img src="images/Iberdrola.svg"  alt="Iberdrola" style="width: 200px;">
+                    </a>
+
+                      
+                  </div>
+            </nav>
+           
+              <!-- <div class="container">
+                <table class="table table-bordered table-striped" id="table" border='2'>
+                  <tr>
+                    <th>type d'installation</th>
+                    <th>Puissance d'installation (kW)</th>
+                    <th>Production annuelle (kWh)</th>
+                    <th>Surface de toit (m2)</th>
+                    <th>Nbs. panneaux</th>
+                  </tr>
+              </table>
+
+              </div> -->
+                <div  id="te" class=" justify-content-center" style="background-color: #5b871a44; width: 100%;">
+                    <div class="row  justify-content-center" style="padding: 2%;">
+                        <h1 style="text-align: center;">Votre Projet Solaire : Un Devis <b style="font-weight: bold;">Gratuit & Rapide </b></h1>
+                    </div>
+
+                     
+                </div>
+            
+
+                <div id="box200" class=" justify-content-center " style="background-color: #f9f9f9; height: auto;">
+                  <div class="fs-3" style="text-align: center; margin: auto; padding: 70px 70px 70px 70px;">
+                    
+                      <h5 id ="cool" style="text-align: center; margin: auto; padding: 70px 70px 70px 70px;">Veuillez patienter quelques secondes</h5>
+                      <div id="loader"></div>
+                      <div class="loader-section section-left"></div>
+                      <div class="loader-section section-right"></div>
+                    
+                  </div>
+                  
+                  
+              </div>
+        <div id="invoice" class=" justify-content-center " style="background-color: #f9f9f9;">
+                <div class="container justify-content-center" style="padding: 2%; text-align: center;">
+                    <h3 class="fs-3" style="text-align: center;">
+                        Meilleure offre d'installation pour votre maison
+                    </h3>
+                    
+                    <div  style="padding-top: 1%;">
+                      <i class="fa fa-location-dot"></i>
+                      <a style="color: #749f2f;padding-left: 0.5%;" class="col-xs-12 center-block text-center"   style="font-weight: bold;"id="location-input">  </a>
+                      
+                    </div>
+                <script>
+                  document.getElementById("location-input").innerHTML = address ;
+              </script>
+                              
+                </div>
+
+
+
+
+
+
+                    <!------------------------------------- head of page : end ---------------------------------->
+
+
+
+
+                  <!------------------------------------- Results : start ---------------------------------->
+
+
+<script>
+window.addEventListener('load', function() {
+  
+  var dtjson = localStorage.getItem("data");
+  var parsing = JSON.parse(dtjson);
+  var project= 0
+  var area = 0
+  for (var i = 0; i < parsing.features.length; i++) {
+    
+project++
+var area = area + parsing.features[i].properties["Surface"]
+
+/* Displaying the JSON data by linking the #test paragraph tag and the JSON object*/
+document.getElementById("test").innerHTML += 
+'<div class="container" style="background-color: rgb(255, 255, 255); margin-top: 1%; border-radius: 10px ; padding: 1% 1% 1% 1%;"><h5 class="text-center" style="padding: 1% 1% 1% 1%; margin-top: 1.5%"> Projet ' +project+ ': type d\'installation\ - <b>'+ parsing.features[i].properties["Installation"] + "<br>" +'</b> </h5><h4 class="text-center pt-2" style="padding: 1% 1% 1% 1%; margin-top: 1.5%"> <b> <i class="fa fa-sun"  style="color: #FFC605; margin-right: 1.5%;"></i> Le dimensionnement optimal</h4><div class="row" style="margin-bottom: 3%; margin-left: 0.5%; margin-right: 0.5%;"><div class="col-sm"><img class="mx-auto d-block" src="images/solar-cell.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"><b>Puissance</b><br><h3 class="col-xs-12 center-block text-center"style="font-weight: bold;" id="Power">'+ parsing.features[i].properties["Puissance"] + " " + "kWc" +'</h3></br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">Vos panneaux solaires vous fourniront une puissance instantanée de <b> '+ parsing.features[i].properties["Puissance"] + " " + "kWc" +' </b> dès lors que les conditions d\'ensoleiment\ sont idéales.</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/solar-power.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"><b> Taille d\'installation\ </b> <br style="font-weight: bolder;"><h3 class="col-xs-12 center-block text-center" id="Installsize" style="font-weight: bold;">'+ parsing.features[i].properties["Surface"] + " " + "m²" +'</h3></br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">'+ parsing.features[i].properties["Surface"] + " " + "m²" +' </b>  de votre toiture (<b style="font-weight: bold;">'+ parsing.features[i].properties["Surface"] + " " + "m²" +'</b>) seront  occupés par les panneaux solaires. Attention, la présence d\'obstacles\ sur votre toit peut modifier la surface de votre toiture.</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/energie-solaire.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"><b> Énergie produite par an</b><br><h3 class="col-xs-12 center-block text-center" id="PowerOut" style="font-weight: bold; ">'+ parsing.features[i].properties["Prodannuelle"] + " " + "kWh" +'</h3></br></h6><h6 class="col-xs-12 center-block text-center"  style="font-weight: normal;">Sachant que le niveau d\'ensoleillement\ de votre maison est de <b style="font-weight: bold;"> '+ parsing.features[i].properties["Ensolleiment"] + " " + "heures par an" +' </b>, nous estimons votre production annuelle à <b style="font-weight: bold;"> '+ parsing.features[i].properties["Prodannuelle"] + " " + "kWh/an." +' </b> </h6></div></div><h4 class="text-center pt-2" style="padding: 1% 1% 1% 1%; margin-top: 1.5%"> <b> <i class="fa fa-money-bill-1" style="color: #FFC605; margin-right: 1.5%;"></i> Résultats financiers </h4><div class="row" style="margin-bottom: 3%; margin-left: 0.5%; margin-right: 0.5%;"><div class="col-sm"><img class="mx-auto d-block"  src="images/investment.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center" > <b>Investissement initial </b> <br> <h3 class="col-xs-12 center-block text-center"  style="font-weight: bold; " id="Price"> '+ parsing.features[i].properties["Prix"] +"€" +'</h3>  </br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal; ">Grâce à Iberdrola, vous profitez des meilleures rapports qualité/prix auprès des artisans de votre région. Votre prime à l\'autoconsommation\,  d\'une\ valeur de 1 170€, est comprise dans le prix affiché. À noter que plusieurs banques peuvent vous aider dans vos démarches !</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/revenu.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"> <b>Estimation de vos économies </b> <br> <h3 class="col-xs-12 center-block text-center" style="font-weight: bold;" id="revenue"> '+ parsing.features[i].properties["Revenue"] + ' </h3>  </br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">Sur <b   style="font-weight: bold;"> '+ parsing.features[i].properties["profitability"] + " " + "ans" +'</b>, vous gagnerez entre <b  style="font-weight: bold;"> '+ parsing.features[i].properties["Revenue"] + ' </b>  grâce à vos économies réalisées sur votre facture ainsi quà la revente du surplus d\'énergie\ à EDF OA .</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/investir.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"> <b>Rentabilisé en </b> <br> <h3 class="col-xs-12 center-block text-center" style="font-weight: bold;" > '+ parsing.features[i].properties["profitability"] + " " + "ans" +' </h3>  </br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">Vos panneaux sont garantis 25 ans<!-- <b  id="profitability2" style="font-weight: bold;"> </b> -->, donc pas d\'inquiétude\, vous pourrez profiter de plusieurs années d\'électricité\ gratuite et 100% verte!</h6></div></div></div>'
+
+
+
+  
+  
+document.getElementById('table').innerHTML += '<tr><td>' + parsing.features[i].properties["Installation"] + '</td><td>' + parsing.features[i].properties["Puissance"] +  '</td><td>' + parsing.features[i].properties["Prodannuelle"] + '</td><td>' + parsing.features[i].properties["Surface"] + '</td><td>' + parsing.features[i].properties["Nbpanneaux"] + '</td></tr>';
+
+
+
+
+
+
+}
+document.getElementById('invoice').style.display = 'block';
+document.getElementById('test').style.display = 'block';
+document.getElementById('box200').style.display = 'none';
+console.log(area);
+
+
+
+
+});
+
+</script>
+
+
+                                    <!------------------------------------- Puissance ---------------------------------->
+
+                  
+                                
+                                    
+                                      <p id="test" class="content"></p>
+                                      <div style="display:none">
+                                      <table id="table" border='2'>
+                                        <tr>
+                                          <th>type d'installation</th>
+                                          <th>Puissance d'installation (kW)</th>
+                                          <th>Production annuelle (kWh)</th>
+                                          <th>Surface de toit (m2)</th>
+                                          <th>Nbs. panneaux</th>
+                                        </tr>
+                                    </table>
+                                  </div>
+                
+                
+                              
+                              
+                              
+
+                              
+                            
+                              
+                              
+                              
+                              <!------------------------------------- Attention : start ---------------------------------->
+                              
+                              
+                              
+                              
+                     
+              <div class="container" style="background-color: #f9f9f9; border-radius: 10px ; padding: 2% 1% 1% 1%;">
+
+                <!-- <img class="row justify-content-center" src="images/warning.png" loading="lazy" style="float: left; padding-left: 10%;" ;> -->
+                <div class="row justify-content-center" style="padding-top: 2%;">
+                  <div class="justify-content-center" style="background-color: #D3DFC2; width: 90%; padding: 1% 1% 1% 1%; border-radius: 10px;">
+                    <h6 >
+                      <i class="fa-solid fa-circle-info"></i>
+                      Ces résultats sont uniquement une estimation. Votre consommation vous la connaissez bien que nous. N'hésitez pas à nous contacter afin d'obtenir un devis plus précis et une analyse détaillée de votre projet.  Il vous suffit simplement de cliquer sur le bouton "Étude détaillée". 
+                    </h6>
+                  </div>
+                </div>
+                
+
+                
+                            <div class="row justify-content-center" style=" padding-top: 2%">
+                              <button class="btn btn-outline-secondary btn-xl" style="padding: 10px 50px; display: block;" id="open-popup" onclick="CreatePDFfromHTML()" ><span class="fa fa-file-lines" style="margin-right: 5%;"></span>Étude détaillée</button>
+                              <button class="btn btn-outline-secondary btn-xl" style="padding: 10px 50px; display: block;" id="PrintNow" onclick="demoFromHTML()" ><span class="fa fa-file-lines" style="margin-right: 5%;"></span>Étude </button>
+
+                              
+                              
+                            </div>
+                          
+                            
+
+  
+                        </div>
+                        <a class="col-12 ms-4 row mt-4"></a> 
+
+                          </div>
+
+
+      <div>
+
+      </div>                    
+                          
+                          <style>
+                            .fcc-btn {
+                              background-color: #f9f9f9;
+                              
+                              cursor: pointer;
+                            }
+                          </style>
+
+                              <!------------------------------------- Results generate pdf : start ---------------------------------->
+
+<!-- 
+                              <script>
+                                window.onload = function () {
+                                    document.getElementById("download")
+                                        .addEventListener("click", () => {
+                                            const invoice = this.document.getElementById("invoice");
+                                            console.log(invoice);
+                                            console.log(window);
+                                            var opt = {
+                                                margin: 0,
+                                                padding:1,
+                                                windowWidth: Window.innerWidth,	
+                                                windowHeight: Window.innerHeight,	
+                                                filename: 'Résultats.pdf',
+                                                image: { type: 'png', quality: 0.98 },
+                                                html2canvas: { scale: 2 },
+                                                jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' },
+                                                backgroundColor: 'red'
+                                            };
+                                            html2pdf().from(invoice).set(opt).save();
+                                        })
+                                }
+                                </script> -->
+                                                        
+
+<div class="popup" id="pop">
+  <div class="popup-container" style="text-align: left ; border-radius: 10px;">
+    <h2 style="text-align: left;">J’obtiens une offre gratuite</h2>
+    <h6>Rentrez vos coordonnées pour être rappelé(e) par un(e) expert(e) et obtenez gratuitement votre offre personnalisée.</h6>
+    <form action="https://formsubmit.co/omarelkassri@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="box">
+
+
+<!--       <input type="hidden" name="_autoresponse" value="Nous avons reçu votre demande et nous vous rappellerons à la date et à l'heure choisies.">
+ -->
+
+
+      <input type="hidden" name="_next" value="http://127.0.0.1:5500/Message-Envoyée.html">
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" class="form-control" id="fullName" name="name" placeholder="John Doe" required>
+ 
+      </div>
+      <div class="form-group">
+        <label>Adresse</label>
+        <input type="text" class="form-control" id="Adresse" name="Adresse">
+      <script>
+        document.getElementById("Adresse").value = address ;
+        var ad = document.getElementById("Adresse").value
+        console.log(ad)
+    </script>
+      </div>
+      <div class="form-group">
+        <label >Numéro de portable</label>
+        <input type="tel" class="form-control" id="phone" name="phone" placeholder="+33 7 41 45 48 88" required>
+      </div>
+      <div class="form-group">
+        <label>Surface totale d'installation en m² </label>
+        <input type="number" class="form-control" id="Area" name="Surface de toit en m²">
+          <script>
+            document.getElementById("Area").value = area ;
+            var ar = document.getElementById("Area").value
+        console.log(ar)
+          </script>
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" class="form-control" name="email" id="email_id" placeholder="johndoe@gmail.com" required>
+
+      </div>
+      <div class="form-group">
+        <label>Y a-t-il un jour qui vous convient davantage ?</label>
+        <input type="date" class="form-control" name="RDV date" id="date" >
+      </div>
+      <div class="form-group">  
+                <label>Y a-t-il un horaire qui vous convient davantage?</label>
+                <select  name="time" id="time" >
+                  <optgroup label="Europe">
+                    <option>08:00 - 09:00</option>
+                    <option>09:00 - 10:00</option>
+                    <option >10:00 - 11:00</option>
+                    <option>11:00 - 12:00</option>
+                    <option>12:00 - 13:00</option>
+                    <option >14:00 - 15:00</option>
+                    <option>15:00 - 16:00</option>
+                    <option>16:00 - 17:00</option>
+                    <option >17:00 - 18:00</option>
+                  </optgroup>
+                </select>
+      </div>
+    
+      <button class="btn btn-outline-secondary d-flex align-content-center"  id="enter" type="submit"> Envoyer </button>
+    </form>   
+ 
+    <div class="popup-close">&times;</div>
+  </div>
+</div>
+
+<script>
+  var addresse;
+  var Surface;
+  var messaged;
+  
+  $('#enter').click(function () {
+
+                                         
+                                        
+  addresse = document.getElementById('Adresse').value;
+  Surface = document.getElementById('Area').value;
+  messaged = document.getElementById('table').innerHTML;
+  console.log(messaged);
+  
+/*   var name = document.getElementById("fullName").value;
+        
+        document.cookie = "Nom du client=" + name;
+        console.log(name);
+  var email = document.getElementById("email_id").value;
+        document.cookie = "email=" + email;
+        console.log(email); */
+        var params = {
+  from_name : document.getElementById("fullName").value,
+  email_id : document.getElementById("email_id").value,
+  adresse : addresse,
+  surface : Surface + "m²",
+  message : messaged,
+  
+/*   surface : document.getElementById("Area").value,
+ */  
+}
+emailjs.send("service_2vgzf0o","template_tf5jz2c", params).then(function(res){
+  alert("success!" + res.status);
+})
+})
+
+</script>
+
+<script>
+var PowerOutput = getCookie("Production annuelle");
+var prix = getCookie("Prix");
+var Revenu = getCookie("Revenue total");
+var Rentabilisé = getCookie("Rentabilisé en");
+var area = getCookie("Surface total d'installation");
+var address = getCookie("address");
+var lenght = 0;
+var type;
+var prod = [];
+var dtjson1 = localStorage.getItem("data");
+var parsing1 = JSON.parse(dtjson1);
+lenght = parsing1.features.length;
+var outputTypes = jsPDFInvoiceTemplate.OutputType;
+
+
+
+    var doc = new jsPDF();
+    var project1= 0
+  var area1 = 0
+var source;
+  function demoFromHTML() {
+    var pdf = new jsPDF('p', 'pt', 'a4');
+    // source can be HTML-formatted string, or a reference
+    // to an actual DOM element from which the text will be scraped.
+    var project1= 0
+  var area = 0
+  for (var i = 0; i < parsing1.features.length; i++) {
+    
+project1++
+var area = area + parsing1.features[i].properties["Surface"]
+
+/* Displaying the JSON data by linking the #test paragraph tag and the JSON object*/
+
+
+source += '<div id="box200" class=" justify-content-center " style="background-color: #f9f9f9; height: auto;"><div class="fs-3" style="text-align: center; margin: auto; padding: 70px 70px 70px 70px;"><h5 style="text-align: center; margin: auto; padding: 70px 70px 70px 70px;">Veuillez patienter quelques secondes</h5></div></div><div class="container" style="background-color: rgb(255, 255, 255); margin-top: 1%; border-radius: 10px ; padding: 1% 1% 1% 1%;"><h5 class="text-center" style="padding: 1% 1% 1% 1%; margin-top: 1.5%"> Projet ' +project1+ ': type d\'installation\ - <b>'+ parsing1.features[i].properties["Installation"] + "<br>" +'</b> </h5><h4 class="text-center pt-2" style="padding: 1% 1% 1% 1%; margin-top: 1.5%"> <b> <i class="fa fa-sun"  style="color: #FFC605; margin-right: 1.5%;"></i> Le dimensionnement optimal</h4><div class="row" style="margin-bottom: 3%; margin-left: 0.5%; margin-right: 0.5%;"><div class="col-sm"><img class="mx-auto d-block" src="images/solar-cell.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"><b>Puissance</b><br><h3 class="col-xs-12 center-block text-center"style="font-weight: bold;" id="Power">'+ parsing1.features[i].properties["Puissance"] + " " + "kWc" +'</h3></br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">Vos panneaux solaires vous fourniront une puissance instantanée de <b> '+ parsing1.features[i].properties["Puissance"] + " " + "kWc" +' </b> dès lors que les conditions d\'ensoleiment\ sont idéales.</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/solar-power.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"><b> Taille d\'installation\ </b> <br style="font-weight: bolder;"><h3 class="col-xs-12 center-block text-center" id="Installsize" style="font-weight: bold;">'+ parsing1.features[i].properties["Surface"] + " " + "m²" +'</h3></br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">'+ parsing1.features[i].properties["Surface"] + " " + "m²" +' </b>  de votre toiture (<b style="font-weight: bold;">'+ parsing1.features[i].properties["Surface"] + " " + "m²" +'</b>) seront  occupés par les panneaux solaires. Attention, la présence d\'obstacles\ sur votre toit peut modifier la surface de votre toiture.</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/energie-solaire.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"><b> Énergie produite par an</b><br><h3 class="col-xs-12 center-block text-center" id="PowerOut" style="font-weight: bold; ">'+ parsing1.features[i].properties["Prodannuelle"] + " " + "kWh" +'</h3></br></h6><h6 class="col-xs-12 center-block text-center"  style="font-weight: normal;">Sachant que le niveau d\'ensoleillement\ de votre maison est de <b style="font-weight: bold;"> '+ parsing1.features[i].properties["Ensolleiment"] + " " + "heures par an" +' </b>, nous estimons votre production annuelle à <b style="font-weight: bold;"> '+ parsing1.features[i].properties["Prodannuelle"] + " " + "kWh/an." +' </b> </h6></div></div><h4 class="text-center pt-2" style="padding: 1% 1% 1% 1%; margin-top: 1.5%"> <b> <i class="fa fa-money-bill-1" style="color: #FFC605; margin-right: 1.5%;"></i> Résultats financiers </h4><div class="row" style="margin-bottom: 3%; margin-left: 0.5%; margin-right: 0.5%;"><div class="col-sm"><img class="mx-auto d-block"  src="images/investment.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center" > <b>Investissement initial </b> <br> <h3 class="col-xs-12 center-block text-center"  style="font-weight: bold; " id="Price"> '+ parsing1.features[i].properties["Prix"] +"Euro " +'</h3>  </br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal; ">Grâce à Iberdrola, vous profitez des meilleures rapports qualité/prix auprès des artisans de votre région. Votre prime à l\'autoconsommation\,  d\'une\ valeur de 1 170 Euro, est comprise dans le prix affiché. À noter que plusieurs banques peuvent vous aider dans vos démarches !</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/revenu.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"> <b>Estimation de vos économies </b> <br> <h3 class="col-xs-12 center-block text-center" style="font-weight: bold;" id="revenue"> '+ parsing1.features[i].properties["Revenue"] + ' </h3>  </br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">Sur <b   style="font-weight: bold;"> '+ parsing1.features[i].properties["profitability"] + " " + "ans" +'</b>, vous gagnerez entre <b  style="font-weight: bold;"> '+ parsing1.features[i].properties["Revenue"] + ' </b>  grâce à vos économies réalisées sur votre facture ainsi quà la revente du surplus d\'énergie\ à EDF OA .</h6></div><div class="col-sm"><img class="mx-auto d-block"  src="images/investir.png" alt="Card image cap" style="padding-top: 2%; padding-bottom: 2%; "><h6 class="col-xs-12 center-block text-center"> <b>Rentabilisé en </b> <br> <h3 class="col-xs-12 center-block text-center" style="font-weight: bold;" > '+ parsing1.features[i].properties["profitability"] + " " + "ans" +' </h3>  </br></h6><h6 class="col-xs-12 center-block text-center" style="font-weight: normal;">Vos panneaux sont garantis 25 ans<!-- <b  id="profitability2" style="font-weight: bold;"> </b> -->, donc pas d\'inquiétude\, vous pourrez profiter de plusieurs années d\'électricité\ gratuite et 100% verte!</h6></div></div></div>'
+;
+
+
+
+
+
+
+}
+    
+
+    // we support special element handlers. Register them with jQuery-style 
+    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+    // There is no support for any other type of selectors 
+    // (class, of compound) at this time.
+    specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector
+        '#bypassme': function (element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"
+            return true
+        }
+    };
+    margins = {
+        top: 10,
+        bottom: 10,
+        left:100,
+        width: 300
+    };
+    // all coords and widths are in jsPDF instance's declared units
+    // 'inches' in this case
+    pdf.fromHTML(
+    source, // HTML string or DOM elem ref.
+    margins.left, // x coord
+    margins.top, { // y coord
+        'width': margins.width, // max width of content on PDF
+        'elementHandlers': specialElementHandlers
+    },
+
+    function (dispose) {
+        // dispose: object with X, Y of the last line add to the PDF 
+        //          this allow the insertion of new lines after html
+        pdf.save('Test.pdf');
+    }, margins);
+}
+
+
+
+ /*    var HTML_Width = $("#test").width();
+console.log(HTML_Width);
+var HTML_Height = $("#test").height();
+console.log(HTML_Height);
+var top_left_margin = 50;
+var PDF_Width = HTML_Width +(top_left_margin*2);
+var PDF_Height = (PDF_Width*1.5)+(top_left_margin*2);
+var canvas_image_width = HTML_Width;
+var canvas_image_height = HTML_Height;
+
+var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+
+
+html2canvas($("#test")[0],{allowTaint:true}).then(function(canvas) {
+  canvas.getContext('2d');
+  
+  console.log(canvas.height+"  "+canvas.width);
+  
+  
+  var imgData = canvas.toDataURL("image/jpeg", 1.0);
+  var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+  pdf.text(20,20,'hello workd')
+  pdf.text(20,30,'hello workd')
+  pdf.text(20,40,'hello workd')
+  pdf.text(20,50,'hello workd')
+  pdf.text(20,60,'hello workd')
+  pdf.text(20,100,'hello workd')
+  pdf.text(20,160,'hello workd')
+    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+  
+  
+  for (var i = 1; i <= totalPDFPages; i++) { 
+    pdf.addPage(PDF_Width, PDF_Height);
+    pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+  }
+  
+    pdf.save("HTML-Document.pdf");
+    }); */
+
+</script>
+
+<script>
+
+window.addEventListener("load", function(){
+    setTimeout(
+        function open(event){
+          document.querySelector(".popup").classList.add("active");
+          document.getElementById('pop').style.display = 'block';
+
+        },
+        30000
+    )
+});
+
+document.querySelector("#open-popup").addEventListener("click",function(){
+  document.querySelector(".popup").classList.add("active");
+  document.getElementById('pop').style.display = 'block';
+
+
+  
+/* var HTML_Width = $("#test").width();
+console.log(HTML_Width);
+var HTML_Height = $("#test").height();
+console.log(HTML_Height);
+var top_left_margin = 5;
+var PDF_Width = HTML_Width +(top_left_margin);
+var PDF_Height = (PDF_Width*1.5);
+var canvas_image_width = HTML_Width;
+var canvas_image_height = HTML_Height;
+
+var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-3;
+
+
+html2canvas($("#test")[0],{allowTaint:true}).then(function(canvas) {
+  canvas.getContext('2d');
+  
+  console.log(canvas.height+"  "+canvas.width);
+  
+  
+  var imgData = canvas.toDataURL("image/jpeg", 1.0);
+  var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+  
+  
+  for (var i = 1; i <= totalPDFPages; i++) { 
+    pdf.addPage(PDF_Width, PDF_Height);
+    pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+  }
+  
+    pdf.save("HTML-Document.pdf");
+    }); */
+
+});
+
+document.querySelector(".popup .popup-container .popup-close").addEventListener("click",function(){
+  document.querySelector(".popup").classList.remove("active");
+
+});
+
+</script>
+
+
+        
+        
+                                 <!------------------------------------- Results generate pdf : end ---------------------------------->
+
+                            <!------------------------------------- Attention : end ---------------------------------->
+ 
+                    
+                    
+                
+
+    
+
+</body>
+<!-- Footer -->
+<footer class="page-footer font-small blue" style="background-color: #5b871a25;">
+
+  
+  <div class="footer-copyright text-center py-3">
+    <a href="panneaux-photovoltaique.html"><img src="images/Iberdrola.svg"  alt="Iberdrola" style="width: 200px; background-color: transparent;"></a>
+  </div>
+ <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
+    © 2022 Green World Energy. Tout droits réservés.
+    
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+</html>
